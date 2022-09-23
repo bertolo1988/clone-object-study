@@ -1,0 +1,37 @@
+{
+  "name": "clone-object-study",
+  "version": "1.0.0",
+  "description": "A study of the best method to clone objects in javascript.",
+  "main": "index.js",
+  "engine": {
+    "node": ">=18.7.0"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "prettier:format": "npx prettier --write .",
+    "prettier:check": "npx prettier --check .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bertolo1988/clone-object-study.git"
+  },
+  "keywords": [
+    "clone",
+    "javascript",
+    "node"
+  ],
+  "author": "bertolo1988 <tiagobertolo@gmail.com> (https://github.com/bertolo1988)",
+  "license": "LGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/bertolo1988/clone-object-study/issues"
+  },
+  "homepage": "https://github.com/bertolo1988/clone-object-study#readme",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "subarg": "^1.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  }
+}
