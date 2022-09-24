@@ -10,7 +10,7 @@
     "clean": "rm -rf node_modules",
     "prettier:format": "npx prettier --write .",
     "prettier:check": "npx prettier --check .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test jest test/"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
     "subarg": "^1.0.0"
   },
   "devDependencies": {
+    "jest": "^29.0.3",
     "prettier": "^2.7.1"
   }
 }
