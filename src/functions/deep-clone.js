@@ -1,4 +1,17 @@
 const _ = require('lodash')
+const underscore = require('underscore')
+const underscoreContrib = require('underscore-contrib')
+const rfdc = require('rfdc/default')
+const justClone = require('just-clone')
+const cloneLib = require('clone')
+const cloneDeep = require('clone-deep')
+
+/**
+ * Reminder:
+ * libs with options for circular deps
+ * rfdc
+ * cloneLib
+ */
 
 class DeepClone {
   static cloneJSON(obj) {
@@ -6,7 +19,7 @@ class DeepClone {
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
-  static cloneStructured(obj) {
+  static structuredClone(obj) {
     return structuredClone(obj)
   }
 
@@ -16,17 +29,8 @@ class DeepClone {
   }
 
   // https://github.com/documentcloud/underscore-contrib/blob/106d020dbd4c12ee87409a388c281ed5cda8754a/underscore.object.builders.js#L67
-  static cloneUnderscoreContribLibrary(obj) {
-    if (obj == null || typeof obj != 'object') {
-      return obj
-    }
-    var temp = new obj.constructor()
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        temp[key] = _.snapshot(obj[key])
-      }
-    }
-    return temp
+  static underscoreContribClone(obj) {
+    return underscoreContrib.snapshot(obj)
   }
 
   // https://stackoverflow.com/a/4460624/1543163
@@ -60,7 +64,7 @@ class DeepClone {
             // it is an object literal
             result = {}
             for (var i in item) {
-              result[i] = clone(item[i])
+              result[i] = DeepClone.cloneNemisj(item[i])
             }
           }
         } else {
@@ -80,21 +84,6 @@ class DeepClone {
     return result
   }
 
-  // https://stackoverflow.com/a/34624648/1543163
-  static cloneTim(aObject) {
-    // Prevent undefined objects
-    // if (!aObject) return aObject;
-    let bObject = Array.isArray(aObject) ? [] : {}
-    let value
-    for (const key in aObject) {
-      // Prevent self-references to parent object
-      // if (Object.is(aObject[key], aObject)) continue;
-      value = aObject[key]
-      bObject[key] = typeof value === 'object' ? copy(value) : value
-    }
-    return bObject
-  }
-
   // https://stackoverflow.com/a/40294058/1543163
   static cloneTrincot(obj, hash = new WeakMap()) {
     if (Object(obj) !== obj) return obj // primitives
@@ -103,7 +92,12 @@ class DeepClone {
       obj instanceof Set
         ? new Set(obj) // See note about this!
         : obj instanceof Map
-        ? new Map(Array.from(obj, ([key, val]) => [key, deepClone(val, hash)]))
+        ? new Map(
+            Array.from(obj, ([key, val]) => [
+              key,
+              DeepClone.cloneTrincot(val, hash)
+            ])
+          )
         : obj instanceof Date
         ? new Date(obj)
         : obj instanceof RegExp
@@ -116,7 +110,9 @@ class DeepClone {
     hash.set(obj, result)
     return Object.assign(
       result,
-      ...Object.keys(obj).map((key) => ({ [key]: deepClone(obj[key], hash) }))
+      ...Object.keys(obj).map((key) => ({
+        [key]: DeepClone.cloneTrincot(obj[key], hash)
+      }))
     )
   }
 
@@ -140,7 +136,7 @@ class DeepClone {
           var _a = []
           for (var e of type) {
             //_a.push(e);
-            _a.push(deepCopy(e))
+            _a.push(DeepClone.cloneKoolDandy(e))
           }
           retObj[attr] = _a
           break
@@ -148,7 +144,7 @@ class DeepClone {
           var _o = {}
           for (var e in type) {
             //_o[e] = type[e];
-            _o[e] = deepCopy(type[e])
+            _o[e] = DeepClone.cloneKoolDandy(type[e])
           }
           retObj[attr] = _o
           break
@@ -159,11 +155,56 @@ class DeepClone {
     return retObj
   }
 
-  static cloneRonald(obj) {
-    if (typeof arr !== 'object') return arr
-    if (Array.isArray(arr)) return [...arr].map(deepCopy)
-    for (const prop in arr) copy[prop] = deepCopy(arr[prop])
-    return copy
+  // https://github.com/davidmarkclements/rfdc
+  static cloneRfdc(obj) {
+    return rfdc(obj)
+  }
+
+  // https://github.com/angus-c/just
+  static justClone(obj) {
+    return justClone(obj)
+  }
+
+  // https://github.com/jashkenas/underscore
+  static cloneUnderscore(obj) {
+    return underscore.clone(obj)
+  }
+
+  // https://github.com/jashkenas/underscore/pull/2723/files
+  static underscoreCloneDeepProposal(obj) {
+    if (!_.isObject(obj)) {
+      return obj
+    }
+    var keys = !isArrayLike(obj) && _.allKeys(obj),
+      length = (keys || obj).length,
+      result = keys ? {} : []
+
+    if (!stack) {
+      stack = [[], []]
+    }
+    var stacked = _.indexOf(stack[0], obj)
+    if (stacked > -1) {
+      return stack[1][stacked]
+    }
+    stack[0].push(obj)
+    stack[1].push(result)
+
+    for (var i = 0; i < length; i++) {
+      var key = keys ? keys[i] : i
+      result[key] = DeepClone.cloneUnderscoreCloneDeepProposal(obj[key], stack)
+    }
+
+    return result
+  }
+
+  // https://www.npmjs.com/package/clone
+  static cloneLib(obj) {
+    return cloneLib(obj)
+  }
+
+  // https://www.npmjs.com/package/clone-deep
+  static cloneDeep(obj) {
+    return cloneDeep(obj)
   }
 }
 
