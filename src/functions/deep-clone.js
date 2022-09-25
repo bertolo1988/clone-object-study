@@ -170,33 +170,6 @@ class DeepClone {
     return underscore.clone(obj)
   }
 
-  // https://github.com/jashkenas/underscore/pull/2723/files
-  static underscoreCloneDeepProposal(obj) {
-    if (!_.isObject(obj)) {
-      return obj
-    }
-    var keys = !isArrayLike(obj) && _.allKeys(obj),
-      length = (keys || obj).length,
-      result = keys ? {} : []
-
-    if (!stack) {
-      stack = [[], []]
-    }
-    var stacked = _.indexOf(stack[0], obj)
-    if (stacked > -1) {
-      return stack[1][stacked]
-    }
-    stack[0].push(obj)
-    stack[1].push(result)
-
-    for (var i = 0; i < length; i++) {
-      var key = keys ? keys[i] : i
-      result[key] = DeepClone.cloneUnderscoreCloneDeepProposal(obj[key], stack)
-    }
-
-    return result
-  }
-
   // https://www.npmjs.com/package/clone
   static cloneLib(obj) {
     return cloneLib(obj)
