@@ -1,17 +1,8 @@
 const _ = require('lodash')
-
 const underscoreContrib = require('underscore-contrib')
-const rfdc = require('rfdc/default')
+const rfdc = require('rfdc')({ proto: true, circles: true })
 const justClone = require('just-clone')
 const cloneLib = require('clone')
-const cloneDeep = require('clone-deep')
-
-/**
- * Reminder:
- * libs with options for circular deps
- * rfdc
- * cloneLib
- */
 
 class DeepClone {
   static cloneJSON(obj) {
@@ -167,14 +158,8 @@ class DeepClone {
 
   // https://www.npmjs.com/package/clone
   static cloneLib(obj) {
-    return cloneLib(obj)
+    return cloneLib(obj, true)
   }
-
-  // https://www.npmjs.com/package/clone-deep
-  // error in symbol test "Exception has occurred: AssertionError [ERR_ASSERTION]: Expected values to be loosely deep-equal:"
-  /*   static cloneDeep(obj) {
-    return cloneDeep(obj)
-  } */
 }
 
 module.exports = DeepClone

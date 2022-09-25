@@ -28,7 +28,7 @@ describe.each(funcs)('objects', (func) => {
       assert.equal(clone.foo.bar, 'ti')
     })
 
-    it.skip('should clone an object with circular references', () => {
+    it('should clone an object with circular references', () => {
       var input = {
         foo: { b: { c: { d: {} } } },
         bar: {}
@@ -38,6 +38,13 @@ describe.each(funcs)('objects', (func) => {
       input.bar.b = input.foo.b
 
       let clone = func(input)
+      // circular ref 1
+      assert.ok(clone === clone.foo.b.c.d)
+      // circular ref 2
+      assert.ok(clone.bar.b === clone.foo.b)
+      // clone should point to a different object
+      assert.ok(clone !== input)
+      assert.deepEqual(clone, input)
     })
 
     it.skip('should clone a simple non shallow object that has an extra property in the prototype', () => {

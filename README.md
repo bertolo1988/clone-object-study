@@ -27,3 +27,11 @@ Functions?
 Maps?
 
 Sets?
+
+# Notes
+
+Underscore.js has no deep clone.
+
+Underscore Contrib deep clone doesnt work.
+
+https://www.npmjs.com/package/clone-deep - does not work
