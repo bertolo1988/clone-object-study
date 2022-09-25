@@ -203,9 +203,10 @@ class DeepClone {
   }
 
   // https://www.npmjs.com/package/clone-deep
-  static cloneDeep(obj) {
+  // error in symbol test "Exception has occurred: AssertionError [ERR_ASSERTION]: Expected values to be loosely deep-equal:"
+  /*   static cloneDeep(obj) {
     return cloneDeep(obj)
-  }
+  } */
 }
 
 module.exports = DeepClone
