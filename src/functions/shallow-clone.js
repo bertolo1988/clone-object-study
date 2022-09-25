@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const underscore = require('underscore')
 
 class ShallowClone {
   static cloneOperator(obj) {
@@ -11,6 +12,11 @@ class ShallowClone {
 
   static cloneLodash(obj) {
     return _.clone(obj)
+  }
+
+  // https://github.com/jashkenas/underscore
+  static cloneUnderscore(obj) {
+    return underscore.clone(obj)
   }
 }
 

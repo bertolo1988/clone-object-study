@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const underscore = require('underscore')
+
 const underscoreContrib = require('underscore-contrib')
 const rfdc = require('rfdc/default')
 const justClone = require('just-clone')
@@ -163,11 +163,6 @@ class DeepClone {
   // https://github.com/angus-c/just
   static justClone(obj) {
     return justClone(obj)
-  }
-
-  // https://github.com/jashkenas/underscore
-  static cloneUnderscore(obj) {
-    return underscore.clone(obj)
   }
 
   // https://www.npmjs.com/package/clone
