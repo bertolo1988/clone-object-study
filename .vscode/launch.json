@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch test",
+      "name": "Launch node script",
       "args": ["${file}"]
     },
     {
