@@ -66,6 +66,10 @@ describe.each(funcs)('objects', (func) => {
       assert.deepStrictEqual(clone, { foo: 'bar' })
     })
 
+    it.skip('Add non enumerable prop in a prototype and see what happens', () => {
+      // TODO
+    })
+
     it.skip('should clone a simple non shallow object that has an extra symbol property', () => {
       // TODO
     })
