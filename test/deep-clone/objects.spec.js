@@ -34,7 +34,9 @@ describe.each(funcs)('objects', (func) => {
         bar: {}
       }
 
+      // circular ref 1
       input.foo.b.c.d = input
+      // circular ref 2
       input.bar.b = input.foo.b
 
       let clone = func(input)
@@ -47,8 +49,21 @@ describe.each(funcs)('objects', (func) => {
       assert.deepEqual(clone, input)
     })
 
-    it.skip('should clone a simple non shallow object that has an extra property in the prototype', () => {
-      // TODO
+    it('should set the `[[Prototype]]` of a clone, cloning an instance is also an instance', function () {
+      function Foo() {}
+      Foo.prototype.bar = 1
+      const clone = func(new Foo())
+      assert.ok(clone instanceof Foo)
+      assert.ok(clone.bar === 1)
+    })
+
+    it('should clone a prototype object', () => {
+      function Foo() {}
+      Foo.prototype.foo = 'bar'
+      let clone = func(Foo.prototype)
+      assert.ok(!(clone instanceof Foo))
+      assert.ok(clone !== Foo.prototype)
+      assert.deepStrictEqual(clone, { foo: 'bar' })
     })
 
     it.skip('should clone a simple non shallow object that has an extra symbol property', () => {
