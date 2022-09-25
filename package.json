@@ -10,7 +10,8 @@
     "clean": "rm -rf node_modules",
     "prettier:format": "npx prettier --write .",
     "prettier:check": "npx prettier --check .",
-    "test": "NODE_ENV=test jest test/"
+    "test": "NODE_ENV=test npx jest --runInBand test/",
+    "test:file": "NODE_ENV=test npx jest --runInBand"
   },
   "repository": {
     "type": "git",
