@@ -57,6 +57,15 @@ describe.each(funcs)('objects', (func) => {
       assert.ok(clone.bar === 1)
     })
 
+    it('when cloning an instance should also clone instance state', function () {
+      function Foo() {
+        this.foo = 'bar'
+      }
+      const clone = func(new Foo())
+      assert.ok(clone instanceof Foo)
+      assert.ok(clone.foo === 'bar')
+    })
+
     it('should clone a prototype object', () => {
       function Foo() {}
       Foo.prototype.foo = 'bar'
@@ -66,15 +75,23 @@ describe.each(funcs)('objects', (func) => {
       assert.deepStrictEqual(clone, { foo: 'bar' })
     })
 
-    it.skip('Add non enumerable prop in a prototype and see what happens', () => {
+    it.skip('should clone non enumerable properties', () => {
       // TODO
     })
 
-    it.skip('should clone a simple non shallow object that has an extra symbol property', () => {
+    it.skip('should clone own properties', () => {
       // TODO
     })
 
-    it.skip('should clone a simple non shallow object that has an extra symbol property in the prototype', () => {
+    it.skip('should clone symbol properties', () => {
+      // TODO
+    })
+
+    it.skip('should clone a simple non shallow object that is sealed and keep it sealed', () => {
+      // TODO
+    })
+
+    it.skip('should clone a simple non shallow object that is frozen and keep it frozen', () => {
       // TODO
     })
 
@@ -91,14 +108,6 @@ describe.each(funcs)('objects', (func) => {
     })
 
     it.skip('should clone a simple non shallow object that has an extra non enumerable, non configurable and non writable property', () => {
-      // TODO
-    })
-
-    it.skip('should clone a simple non shallow object that is sealed and keep it sealed', () => {
-      // TODO
-    })
-
-    it.skip('should clone a simple non shallow object that is frozen and keep it frozen', () => {
       // TODO
     })
   })
