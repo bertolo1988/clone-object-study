@@ -39,7 +39,7 @@ describe.each(funcs)('primitive types', (func) => {
     it('should clone a Symbol', () => {
       let input = Symbol('hello')
       let clone = func(input)
-      assert.deepStrictEqual(input, clone)
+      assert.equal(input, clone)
     })
 
     it('should clone a BigInt', () => {

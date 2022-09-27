@@ -21,34 +21,21 @@ describe.each(funcs)('objects', (func) => {
       assert.ok(Object.isSealed(clone))
     })
 
-    /*     exports['clone instance with getter'] = function (test) {
-      test.expect(1);
-      function Ctor() {}
-      Object.defineProperty(Ctor.prototype, 'prop', {
+    it('should clone getters', () => {
+      function Foo() {}
+
+      Object.defineProperty(Foo.prototype, 'bar', {
         configurable: true,
         enumerable: true,
-        get: function() {
-          return 'value';
+        get: function () {
+          return 'foo-bar'
         }
-      });
-    
-      var a = new Ctor();
-      var b = clone(a);
-    
-      test.strictEqual(b.prop, 'value');
-      test.done();
-    }; */
-    /*     exports['clone object with symbol properties'] = function (test) {
-      var symbol = Symbol();
-      var obj = {};
-      obj[symbol] = 'foo';
-  
-      var child = clone(obj);
-  
-      test.notEqual(child, obj);
-      test.equal(child[symbol], 'foo');
-  
-      test.done();
-    } */
+      })
+
+      let input = new Foo()
+      var clone = func(input)
+
+      assert.strictEqual(clone.bar, 'foo-bar')
+    })
   })
 })

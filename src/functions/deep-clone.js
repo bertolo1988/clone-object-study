@@ -3,6 +3,7 @@ const underscoreContrib = require('underscore-contrib')
 const rfdc = require('rfdc')({ proto: true, circles: true })
 const justClone = require('just-clone')
 const cloneLib = require('clone')
+const cloneDeep = require('clone-deep')
 
 class DeepClone {
   static cloneJSON(obj) {
@@ -41,7 +42,7 @@ class DeepClone {
       if (Object.prototype.toString.call(item) === '[object Array]') {
         result = []
         item.forEach(function (child, index, array) {
-          result[index] = clone(child)
+          result[index] = DeepClone.cloneNemisj(child)
         })
       } else if (typeof item == 'object') {
         // testing that this is DOM
@@ -159,6 +160,10 @@ class DeepClone {
   // https://www.npmjs.com/package/clone
   static cloneLib(obj) {
     return cloneLib(obj, true)
+  }
+
+  static cloneDeep(obj) {
+    return cloneDeep(obj)
   }
 }
 
