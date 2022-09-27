@@ -75,14 +75,34 @@ describe.each(funcs)('objects', (func) => {
       assert.equal(cloneOwnDescriptor.writable, false)
     })
 
-    /*     it.skip('should clone own properties', () => {
-      // TODO
+    it('should clone symbol properties', () => {
+      const input = { [Symbol('a')]: 44 }
+      const clone = func(input)
+
+      const cloneOwnPropertySymbols = Object.getOwnPropertySymbols(clone)
+
+      assert.ok(cloneOwnPropertySymbols.length === 1)
+      assert.equal(
+        cloneOwnPropertySymbols[0].toString(),
+        Symbol('a').toString()
+      )
     })
 
-    it.skip('should clone symbol properties', () => {
-      // TODO
+    it('should clone frozen object', () => {
+      const input = { foo: 'bar' }
+      Object.freeze(input)
+      const clone = func(input)
+      assert.ok(Object.isFrozen(clone))
     })
 
+    it('should clone sealed object', () => {
+      const input = { foo: 'bar' }
+      Object.seal(input)
+      const clone = func(input)
+      assert.ok(Object.isSealed(clone))
+    })
+
+    /*
     it.skip('should clone a simple non shallow object that is sealed and keep it sealed', () => {
       // TODO
     })
@@ -91,21 +111,6 @@ describe.each(funcs)('objects', (func) => {
       // TODO
     })
 
-    it.skip('should clone a simple non shallow object that has an extra non enumerable property', () => {
-      // TODO
-    })
-
-    it.skip('should clone a simple non shallow object that has an extra enumerable, non writable and non configurable property', () => {
-      // TODO
-    })
-
-    it.skip('should clone a simple non shallow object that has an extra non enumerable, non writable property', () => {
-      // TODO
-    })
-
-    it.skip('should clone a simple non shallow object that has an extra non enumerable, non configurable and non writable property', () => {
-      // TODO
-    })
  */
     /*     exports['clone instance with getter'] = function (test) {
       test.expect(1);
