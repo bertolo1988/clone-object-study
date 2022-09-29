@@ -16,5 +16,15 @@ describe.each(funcs)('other', (func) => {
         assert.strictEqual(clone.input, 'abcde')
       })
     })
+
+    it('should clone a function', () => {
+      function foo(a, b) {
+        return a + b
+      }
+      let clone = func(foo)
+      const a = 1,
+        b = 2
+      assert.ok(clone(a, b) === foo(a, b))
+    })
   })
 })
