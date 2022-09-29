@@ -4,6 +4,7 @@ const rfdc = require('rfdc')({ proto: true, circles: true })
 const justClone = require('just-clone')
 const cloneLib = require('clone')
 const cloneDeep = require('clone-deep')
+const fastestClone = require('fastest-clone')
 
 class DeepClone {
   static cloneJSON(obj) {
@@ -162,8 +163,14 @@ class DeepClone {
     return cloneLib(obj, true)
   }
 
+  // https://www.npmjs.com/package/clone-deep
   static cloneDeep(obj) {
     return cloneDeep(obj)
+  }
+
+  // https://www.npmjs.com/package/fastest-clone
+  static fastestClone(obj) {
+    return fastestClone(obj)
   }
 }
 
