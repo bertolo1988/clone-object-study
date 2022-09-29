@@ -49,12 +49,29 @@ describe.each(funcs)('objects', (func) => {
       assert.deepEqual(clone, input)
     })
 
+    it('should clone a prototype object', () => {
+      function Foo() {}
+      Foo.prototype.foo = 'bar'
+      let clone = func(Foo.prototype)
+      assert.ok(!(clone instanceof Foo))
+      assert.ok(clone !== Foo.prototype)
+      assert.deepStrictEqual(clone, { foo: 'bar' })
+    })
+
     it('should set the `[[Prototype]]` of a clone', function () {
       function Foo() {}
       Foo.prototype.bar = 1
       const clone = func(new Foo())
       assert.ok(clone instanceof Foo)
       assert.ok(clone.bar === 1)
+    })
+
+    it('should set the `[[Prototype]]` of a clone even when the `constructor` is incorrect', function () {
+      function Foo() {
+        this.a = 1
+      }
+      Foo.prototype.constructor = Object
+      assert.ok(func(new Foo()) instanceof Foo)
     })
 
     it('when cloning an instance should also clone instance state', function () {
@@ -66,13 +83,21 @@ describe.each(funcs)('objects', (func) => {
       assert.ok(clone.foo === 'bar')
     })
 
-    it('should clone a prototype object', () => {
+    it('should clone getters', () => {
       function Foo() {}
-      Foo.prototype.foo = 'bar'
-      let clone = func(Foo.prototype)
-      assert.ok(!(clone instanceof Foo))
-      assert.ok(clone !== Foo.prototype)
-      assert.deepStrictEqual(clone, { foo: 'bar' })
+
+      Object.defineProperty(Foo.prototype, 'bar', {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return 'foo-bar'
+        }
+      })
+
+      let input = new Foo()
+      var clone = func(input)
+
+      assert.strictEqual(clone.bar, 'foo-bar')
     })
   })
 })

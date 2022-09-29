@@ -87,5 +87,19 @@ describe.each(funcs)('objects', (func) => {
         Symbol('a').toString()
       )
     })
+
+    it('should clone frozen object', () => {
+      const input = { foo: 'bar' }
+      Object.freeze(input)
+      const clone = func(input)
+      assert.ok(Object.isFrozen(clone))
+    })
+
+    it('should clone sealed object', () => {
+      const input = { foo: 'bar' }
+      Object.seal(input)
+      const clone = func(input)
+      assert.ok(Object.isSealed(clone))
+    })
   })
 })

@@ -4,7 +4,6 @@ const rfdc = require('rfdc')({ proto: true, circles: true })
 const justClone = require('just-clone')
 const cloneLib = require('clone')
 const cloneDeep = require('clone-deep')
-const fastestClone = require('fastest-clone')
 
 class DeepClone {
   static cloneJSON(obj) {
@@ -14,11 +13,6 @@ class DeepClone {
   // https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
   static structuredClone(obj) {
     return structuredClone(obj)
-  }
-
-  // https://lodash.com/docs/4.17.15#cloneDeep
-  static cloneDeepLodash(obj) {
-    return _.cloneDeep(obj)
   }
 
   // https://github.com/documentcloud/underscore-contrib/blob/106d020dbd4c12ee87409a388c281ed5cda8754a/underscore.object.builders.js#L67
@@ -158,19 +152,19 @@ class DeepClone {
     return justClone(obj)
   }
 
-  // https://www.npmjs.com/package/clone
-  static cloneLib(obj) {
-    return cloneLib(obj, true)
-  }
-
   // https://www.npmjs.com/package/clone-deep
   static cloneDeep(obj) {
     return cloneDeep(obj)
   }
 
-  // https://www.npmjs.com/package/fastest-clone
-  static fastestClone(obj) {
-    return fastestClone(obj)
+  // https://www.npmjs.com/package/clone
+  static cloneLib(obj) {
+    return cloneLib(obj, true)
+  }
+
+  // https://lodash.com/docs/4.17.15#cloneDeep
+  static cloneDeepLodash(obj) {
+    return _.cloneDeep(obj)
   }
 }
 
