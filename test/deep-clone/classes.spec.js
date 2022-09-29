@@ -5,7 +5,7 @@ const DeepClone = require('../../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
-describe.each(funcs)('class', (func) => {
+describe.each(funcs)('classes', (func) => {
   describe(`🟣 ${func.name} `, () => {
     describe('class definitions', () => {
       it('should clone the class prototype', () => {

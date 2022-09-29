@@ -5,7 +5,7 @@ const DeepClone = require('../../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
-describe.each(funcs)('objects', (func) => {
+describe.each(funcs)('other', (func) => {
   describe(`🟣 ${func.name} `, () => {
     describe('RegExp', () => {
       it('should clone `index` and `input` array properties', () => {

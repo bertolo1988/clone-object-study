@@ -5,7 +5,7 @@ const DeepClone = require('../../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
-describe.each(funcs)('objects', (func) => {
+describe.each(funcs)('arrays', (func) => {
   describe(`🟣 ${func.name} `, () => {
     it('should clone a shallow array length property', () => {
       const input = [1, 2, 3]
