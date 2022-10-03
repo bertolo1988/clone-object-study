@@ -5,18 +5,8 @@ const DeepClone = require('../../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
-describe.each(funcs)('other', (func) => {
+describe.each(funcs)('Function', (func) => {
   describe(`🟣 ${func.name} `, () => {
-    describe('RegExp', () => {
-      it('should clone `index` and `input` array properties', () => {
-        let input = /c/.exec('abcde')
-        let clone = func(input)
-
-        assert.strictEqual(clone.index, 2)
-        assert.strictEqual(clone.input, 'abcde')
-      })
-    })
-
     it('should clone a function', () => {
       function foo(a, b) {
         return a + b
@@ -25,6 +15,15 @@ describe.each(funcs)('other', (func) => {
       const a = 1,
         b = 2
       assert.ok(clone(a, b) === foo(a, b))
+    })
+
+    it('should clone a function own properties', () => {
+      function foo(a, b) {
+        return a + b
+      }
+      foo.bar = 'aa'
+      let clone = func(foo)
+      assert.ok(clone.bar === foo.bar)
     })
   })
 })
