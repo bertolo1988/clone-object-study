@@ -74,15 +74,6 @@ describe.each(funcs)('objects part1', (func) => {
       assert.ok(func(new Foo()) instanceof Foo)
     })
 
-    it('when cloning an instance should also clone instance state', function () {
-      function Foo() {
-        this.foo = 'bar'
-      }
-      const clone = func(new Foo())
-      assert.ok(clone instanceof Foo)
-      assert.ok(clone.foo === 'bar')
-    })
-
     it('should clone getters', () => {
       function Foo() {}
 
