@@ -159,7 +159,7 @@ class DeepClone {
 
   // https://www.npmjs.com/package/clone
   static cloneLib(obj) {
-    return cloneLib(obj, true)
+    return cloneLib(obj, true, Infinity, undefined, true)
   }
 
   // https://lodash.com/docs/4.17.15#cloneDeep
