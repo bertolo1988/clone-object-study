@@ -17,6 +17,8 @@ describe.each(funcs)('arrays', (func) => {
       const input = [1, 2, 3]
       const clone = func(input)
       assert.deepEqual(clone, input)
+      input.push(4)
+      assert.notDeepEqual(clone, input)
     })
 
     it('should clone a matrix', () => {
@@ -30,6 +32,8 @@ describe.each(funcs)('arrays', (func) => {
       const clone = func(input)
       assert.deepEqual(clone, input)
       assert.deepEqual(clone[1][1], input[1][1])
+      input[1].push(4)
+      assert.notDeepEqual(clone, input)
     })
   })
 })
