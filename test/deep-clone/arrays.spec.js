@@ -21,7 +21,7 @@ describe.each(funcs)('arrays', (func) => {
       assert.notDeepEqual(clone, input)
     })
 
-    it('should clone a matrix', () => {
+    it('should deep clone a matrix', () => {
       const input = [
         [1, 2],
         [
