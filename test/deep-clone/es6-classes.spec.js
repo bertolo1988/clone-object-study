@@ -5,7 +5,7 @@ const DeepClone = require('../../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
-describe.each(funcs)('classes', (func) => {
+describe.each(funcs)('es6 classes', (func) => {
   describe(`🟣 ${func.name} `, () => {
     describe('class definitions', () => {
       it('should clone the class prototype', () => {
@@ -27,6 +27,7 @@ describe.each(funcs)('classes', (func) => {
         }
         const clone = func(InputClass)
         assert.ok(InputClass.constructor === clone.constructor)
+        assert.ok(clone.constructor.name === clone.constructor.name)
       })
 
       it('should clone static methods', () => {
@@ -43,6 +44,25 @@ describe.each(funcs)('classes', (func) => {
         assert.ok(clone.tic === InputClass.tic)
         assert.ok(InputClass.tic() === 'tac')
         assert.ok(clone.tic() === InputClass.tic())
+      })
+
+      it('should clone inherited static methods', () => {
+        class Bar {
+          static car() {
+            return 'BMW'
+          }
+        }
+        class InputClass extends Bar {
+          constructor(foo) {
+            super()
+            this.foo = foo
+          }
+          static tic() {
+            return 'tac'
+          }
+        }
+        const clone = func(InputClass)
+        assert.ok(clone.car() === 'BMW')
       })
     })
 
@@ -99,6 +119,29 @@ describe.each(funcs)('classes', (func) => {
         const input = new InputClass('foo-bar')
         const clone = func(input)
         assert.ok(clone.a === 'foo-bar')
+      })
+
+      it('should clone inherited non static methods', () => {
+        class Snackbar {
+          constructor(name) {
+            this.name = name
+          }
+
+          car() {
+            return this.name
+          }
+        }
+
+        class Restaurant extends Snackbar {
+          constructor(foo) {
+            super(foo)
+          }
+        }
+
+        const name = 'foo-bar'
+        const input = new Restaurant(name)
+        const clone = func(input)
+        assert.ok(clone.car() === name)
       })
     })
   })
