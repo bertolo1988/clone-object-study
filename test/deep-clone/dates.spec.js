@@ -30,6 +30,12 @@ describe.each(funcs)('dates', (func) => {
       assert.ok(clone.getHours() === 5)
     })
 
+    it('should clone constructor', () => {
+      const input = new Date()
+      const clone = func(input)
+      assert.ok(input.constructor.name === clone.constructor.name)
+    })
+
     it('should clone type', () => {
       const input = new Date()
       const clone = func(input)
