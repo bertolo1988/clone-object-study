@@ -19,6 +19,16 @@ describe.each(funcs)('es6 classes', (func) => {
         assert.ok(InputClass.prototype === clone.prototype)
       })
 
+      it('should clone type', () => {
+        class InputClass {
+          constructor(foo) {
+            this.foo = foo
+          }
+        }
+        const clone = func(InputClass)
+        assert.equal(typeof clone, typeof InputClass)
+      })
+
       it('should clone the class constructor', () => {
         class InputClass {
           constructor(foo) {

@@ -17,6 +17,14 @@ describe.each(funcs)('Functions', (func) => {
       assert.ok(clone(a, b) === foo(a, b))
     })
 
+    it('should clone type', () => {
+      function foo(a, b) {
+        return a + b
+      }
+      const clone = func(foo)
+      assert.equal(typeof clone, typeof foo)
+    })
+
     it('should clone the function name', () => {
       function foo(a, b) {
         return a + b

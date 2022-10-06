@@ -39,5 +39,11 @@ describe.each(funcs)('ArrayBuffer', (func) => {
       const clone = func(input)
       assert.ok(clone.foo === input.foo)
     })
+
+    it('should clone type', () => {
+      const input = new ArrayBuffer(16)
+      const clone = func(input)
+      assert.equal(typeof clone, typeof input)
+    })
   })
 })

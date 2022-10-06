@@ -185,5 +185,11 @@ describe.each(funcs)('objects part1', (func) => {
       const clone = func(input)
       assert.ok(Object.isSealed(clone))
     })
+
+    it('should clone type', () => {
+      const input = { foo: 'bar' }
+      const clone = func(input)
+      assert.equal(typeof clone, typeof input)
+    })
   })
 })
