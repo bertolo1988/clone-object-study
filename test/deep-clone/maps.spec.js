@@ -42,7 +42,7 @@ describe.each(funcs)('Map', (func) => {
       assert.ok(a.size === b.size)
     })
 
-    it('should clone own properties if they exist', () => {
+    it('should clone own enumerable properties if they exist', () => {
       const a = new Map([
         ['foo', 'bar'],
         ['a', 'b']
@@ -50,6 +50,19 @@ describe.each(funcs)('Map', (func) => {
       a.foo = 'bar'
       const b = func(a)
       assert.ok(a.foo === b.foo)
+    })
+
+    it('should clone own non enumerable properties', () => {
+      const a = new Map([
+        ['foo', 'bar'],
+        ['a', 'b']
+      ])
+      Object.defineProperty(a, 'bar', {
+        value: 42,
+        enumerable: false
+      })
+      let clone = func(a)
+      assert.ok(clone.bar === 42)
     })
 
     it('clone typeof should yield same result as the original', () => {

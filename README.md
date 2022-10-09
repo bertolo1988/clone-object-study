@@ -41,10 +41,10 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
 
 make sure every test suite has the following tests:
 
-"should clone constructor"
-
-"should clone type"
+https://stackoverflow.com/questions/1833588/javascript-clone-a-function
 
 "should clone own enumerable properties if they exist"
 
 "should clone own properties non enumerable properties if they exist"
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible

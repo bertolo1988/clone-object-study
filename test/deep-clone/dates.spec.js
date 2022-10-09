@@ -41,5 +41,25 @@ describe.each(funcs)('dates', (func) => {
       const clone = func(input)
       assert.equal(typeof clone, typeof input)
     })
+
+    it('should clone enumerable properties', () => {
+      const input = new Date()
+      Object.defineProperty(input, 'foo', {
+        value: 'bar',
+        enumerable: true
+      })
+      let clone = func(input)
+      assert.ok(clone.foo === 'bar')
+    })
+
+    it('should clone non enumerable properties', () => {
+      const input = new Date()
+      Object.defineProperty(input, 'foo', {
+        value: 'bar',
+        enumerable: false
+      })
+      let clone = func(input)
+      assert.ok(clone.foo === 'bar')
+    })
   })
 })

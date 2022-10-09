@@ -47,6 +47,16 @@ describe.each(funcs)('Set', (func) => {
       assert.ok(a.foo === b.foo)
     })
 
+    it('should clone own non enumerable properties', () => {
+      const input = new Set([2, 1, 3])
+      Object.defineProperty(input, 'bar', {
+        value: 42,
+        enumerable: false
+      })
+      let clone = func(input)
+      assert.ok(clone.bar === 42)
+    })
+
     it('clone typeof should yield same result as the original', () => {
       const input = new Set([2, 1, 3])
       const clone = func(input)

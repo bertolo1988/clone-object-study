@@ -40,6 +40,16 @@ describe.each(funcs)('Error', (func) => {
       assert.ok(a.foo === b.foo)
     })
 
+    it('should clone non enumerable properties', () => {
+      const input = new Error('Foobar')
+      Object.defineProperty(input, 'foo', {
+        value: 'bar',
+        enumerable: false
+      })
+      let clone = func(input)
+      assert.ok(clone.foo === 'bar')
+    })
+
     it('clone typeof should yield same result as original', () => {
       const input = new Error('Foobar')
       const clone = func(input)

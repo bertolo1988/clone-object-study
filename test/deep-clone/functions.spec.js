@@ -40,16 +40,28 @@ describe.each(funcs)('Functions', (func) => {
       let clone = func(foo)
       assert.deepEqual(clone, foo)
       foo.bar = '111'
-      assert.notDeepEqual(clone, foo)
+      assert.ok(clone.bar === undefined)
     })
 
-    it('should clone a function own properties', () => {
+    it('should clone own enumerable properties', () => {
       function foo(a, b) {
         return a + b
       }
       foo.bar = 'aa'
       let clone = func(foo)
       assert.ok(clone.bar === foo.bar)
+    })
+
+    it('should clone own non enumerable properties', () => {
+      function foo(a, b) {
+        return a + b
+      }
+      Object.defineProperty(foo, 'bar', {
+        value: 42,
+        enumerable: false
+      })
+      let clone = func(foo)
+      assert.ok(clone.bar === 42)
     })
 
     it('should clone the prototype', () => {

@@ -47,5 +47,25 @@ describe.each(funcs)('arrays', (func) => {
       const clone = func(input)
       assert.equal(clone.constructor.name, input.constructor.name)
     })
+
+    it('should clone enumerable properties', () => {
+      const input = [1, 2, 3]
+      Object.defineProperty(input, 'foo', {
+        value: 'bar',
+        enumerable: true
+      })
+      let clone = func(input)
+      assert.ok(clone.foo === 'bar')
+    })
+
+    it('should clone non enumerable properties', () => {
+      const input = [1, 2, 3]
+      Object.defineProperty(input, 'foo', {
+        value: 'bar',
+        enumerable: false
+      })
+      let clone = func(input)
+      assert.ok(clone.foo === 'bar')
+    })
   })
 })

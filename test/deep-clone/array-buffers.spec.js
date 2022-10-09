@@ -33,12 +33,22 @@ describe.each(funcs)('ArrayBuffer', (func) => {
       assert.ok(clone.byteLength === 16)
     })
 
-    it('should clone own properties if they exist', () => {
+    it('should clone enumerable properties if they exist', () => {
       const input = new ArrayBuffer(16)
       input.foo = 'bar'
       const clone = func(input)
       assert.ok(clone.foo === input.foo)
       clone.hasOwnProperty('foo')
+    })
+
+    it('should clone non enumerable properties', () => {
+      const input = new ArrayBuffer(16)
+      Object.defineProperty(input, 'foo', {
+        value: 'bar',
+        enumerable: false
+      })
+      let clone = func(input)
+      assert.ok(clone.foo === 'bar')
     })
 
     it('clone typeof should yield same result as original', () => {
