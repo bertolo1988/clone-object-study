@@ -41,5 +41,11 @@ describe.each(funcs)('arrays', (func) => {
       const clone = func(input)
       assert.equal(typeof clone, typeof input)
     })
+
+    it('should clone the constructor', () => {
+      const input = [1, 2, 3]
+      const clone = func(input)
+      assert.equal(clone.constructor.name, input.constructor.name)
+    })
   })
 })
