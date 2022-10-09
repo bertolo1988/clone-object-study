@@ -29,7 +29,7 @@ describe.each(funcs)('es6 classes', (func) => {
         assert.equal(clone.constructor.name, InputClass.constructor.name)
       })
 
-      it('should clone type', () => {
+      it('clone typeof should yield same result as original', () => {
         class InputClass {
           constructor(foo) {
             this.foo = foo
@@ -139,6 +139,22 @@ describe.each(funcs)('es6 classes', (func) => {
         const input = new InputClass('foo-bar')
         const clone = func(input)
         assert.ok(clone.a === 'foo-bar')
+      })
+
+      it('clone typeof should yield same result as the original', () => {
+        class FooBar {
+          constructor(a) {
+            this.a = a
+          }
+        }
+        class InputClass extends FooBar {
+          constructor(foo) {
+            super(foo)
+          }
+        }
+        const input = new InputClass('foo-bar')
+        const clone = func(input)
+        assert.equal(typeof clone, typeof input)
       })
 
       it('should clone inherited non static methods', () => {

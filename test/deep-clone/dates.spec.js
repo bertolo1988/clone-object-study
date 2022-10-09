@@ -36,7 +36,7 @@ describe.each(funcs)('dates', (func) => {
       assert.ok(input.constructor.name === clone.constructor.name)
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as original', () => {
       const input = new Date()
       const clone = func(input)
       assert.equal(typeof clone, typeof input)

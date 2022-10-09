@@ -47,7 +47,7 @@ describe.each(funcs)('Set', (func) => {
       assert.ok(a.foo === b.foo)
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as the original', () => {
       const input = new Set([2, 1, 3])
       const clone = func(input)
       assert.equal(typeof clone, typeof input)

@@ -16,18 +16,6 @@
 
 - call clone methods on class instances
 
-### To consider
-
-Errors?
-
-Buffers?
-
-Functions?
-
-Maps?
-
-Sets?
-
 # Notes
 
 Underscore.js has no deep clone.
@@ -35,3 +23,28 @@ Underscore.js has no deep clone.
 Underscore Contrib deep clone doesnt work.
 
 https://www.npmjs.com/package/clone-deep - does not work
+
+// TODO
+
+lodas uncloneable - https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/test/clone-methods.js#L73
+take more ideas from here
+
+TODO
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
+
+make sure every test suite has the following tests:
+
+"should clone constructor"
+
+"should clone type"
+
+"should clone own enumerable properties if they exist"
+
+"should clone own properties non enumerable properties if they exist"

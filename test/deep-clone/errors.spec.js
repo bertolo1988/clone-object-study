@@ -40,7 +40,7 @@ describe.each(funcs)('Error', (func) => {
       assert.ok(a.foo === b.foo)
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as original', () => {
       const input = new Error('Foobar')
       const clone = func(input)
       assert.equal(typeof clone, typeof input)

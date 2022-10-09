@@ -36,7 +36,7 @@ describe.each(funcs)('arrays', (func) => {
       assert.notDeepEqual(clone, input)
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as original', () => {
       const input = [1, 2, 3]
       const clone = func(input)
       assert.equal(typeof clone, typeof input)

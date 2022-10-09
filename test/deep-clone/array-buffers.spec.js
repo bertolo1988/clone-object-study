@@ -41,7 +41,7 @@ describe.each(funcs)('ArrayBuffer', (func) => {
       clone.hasOwnProperty('foo')
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as original', () => {
       const input = new ArrayBuffer(16)
       const clone = func(input)
       assert.equal(typeof clone, typeof input)

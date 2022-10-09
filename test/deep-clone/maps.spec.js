@@ -52,7 +52,7 @@ describe.each(funcs)('Map', (func) => {
       assert.ok(a.foo === b.foo)
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as the original', () => {
       const input = new Map([
         ['foo', 'bar'],
         ['a', 'b']

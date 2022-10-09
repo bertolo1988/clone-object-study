@@ -17,7 +17,7 @@ describe.each(funcs)('Functions', (func) => {
       assert.ok(clone(a, b) === foo(a, b))
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as the original', () => {
       function foo(a, b) {
         return a + b
       }

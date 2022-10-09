@@ -186,7 +186,7 @@ describe.each(funcs)('objects part1', (func) => {
       assert.ok(Object.isSealed(clone))
     })
 
-    it('should clone type', () => {
+    it('clone typeof should yield same result as the original', () => {
       const input = { foo: 'bar' }
       const clone = func(input)
       assert.equal(typeof clone, typeof input)
