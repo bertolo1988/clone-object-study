@@ -38,6 +38,7 @@ describe.each(funcs)('ArrayBuffer', (func) => {
       input.foo = 'bar'
       const clone = func(input)
       assert.ok(clone.foo === input.foo)
+      clone.hasOwnProperty('foo')
     })
 
     it('should clone type', () => {
