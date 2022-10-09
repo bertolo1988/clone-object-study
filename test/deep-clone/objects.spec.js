@@ -191,5 +191,11 @@ describe.each(funcs)('objects part1', (func) => {
       const clone = func(input)
       assert.equal(typeof clone, typeof input)
     })
+
+    it('should clone the constructor', () => {
+      const input = { foo: 'bar' }
+      const clone = func(input)
+      assert.ok(input.constructor.name === clone.constructor.name)
+    })
   })
 })

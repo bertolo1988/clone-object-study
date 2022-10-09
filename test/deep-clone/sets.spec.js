@@ -33,6 +33,13 @@ describe.each(funcs)('Set', (func) => {
       assert.ok(a.size === b.size)
     })
 
+    it('"has" method should be usable', () => {
+      const a = new Set([2, 1, 3])
+      const b = func(a)
+      assert.ok(b.has(2) === true)
+      assert.ok(b.has(5) === false)
+    })
+
     it('should clone own properties if they exist', () => {
       const a = new Set([2, 1, 3])
       a.foo = 'bar'
