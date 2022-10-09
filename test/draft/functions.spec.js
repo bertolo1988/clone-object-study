@@ -17,6 +17,23 @@ describe.each(funcs)('Functions', (func) => {
       assert.ok(clone(a, b) === foo(a, b))
     })
 
+    it('should clone a prototype object', () => {
+      function Foo() {}
+      Foo.prototype.foo = 'bar'
+      let clone = func(Foo.prototype)
+      assert.ok(!(clone instanceof Foo))
+      assert.ok(clone !== Foo.prototype)
+      assert.deepStrictEqual(clone, { foo: 'bar' })
+    })
+
+    it('should set the `[[Prototype]]` of a clone', function () {
+      function Foo() {}
+      Foo.prototype.bar = 1
+      const clone = func(new Foo())
+      assert.ok(clone instanceof Foo)
+      assert.ok(clone.bar === 1)
+    })
+
     it('clone typeof should yield same result as the original', () => {
       function foo(a, b) {
         return a + b

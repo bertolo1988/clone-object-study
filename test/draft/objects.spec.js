@@ -45,51 +45,50 @@ describe.each(funcs)('objects part1', (func) => {
       // circular ref 2
       assert.ok(clone.bar.b === clone.foo.b)
       // clone should point to a different object
-      assert.ok(clone.foo.b !== input.foo.b)
       assert.ok(clone !== input)
       assert.deepEqual(clone, input)
     })
 
-    describe('prototype', () => {
-      afterEach(() => {
-        delete Object.prototype.dangerousFunction
-      })
-
-      it('should clone the __proto__', () => {
-        const input = { a: 1 }
-        input.__proto__.dangerousFunction = 'bar'
-        let clone = func(input)
-        assert.ok(clone.__proto__.dangerousFunction === 'bar')
-      })
+    it('should clone a prototype object', () => {
+      function Foo() {}
+      Foo.prototype.foo = 'bar'
+      let clone = func(Foo.prototype)
+      assert.ok(!(clone instanceof Foo))
+      assert.ok(clone !== Foo.prototype)
+      assert.deepStrictEqual(clone, { foo: 'bar' })
     })
 
-    it('should clone a getter', () => {
-      const input = {
-        a: 2,
-        get foo() {
-          return this.a * 2
-        }
-      }
-      let clone = func(input)
-      assert.ok(clone.foo === 4)
-      assert.ok(
-        typeof Object.getOwnPropertyDescriptor(clone, 'foo').get === 'function'
-      )
+    it('should set the `[[Prototype]]` of a clone', function () {
+      function Foo() {}
+      Foo.prototype.bar = 1
+      const clone = func(new Foo())
+      assert.ok(clone instanceof Foo)
+      assert.ok(clone.bar === 1)
     })
 
-    it('should clone a setter', () => {
-      const input = {
-        set foo(val) {
-          this.a = val
-        }
+    it('should set the `[[Prototype]]` of a clone even when the `constructor` is incorrect', function () {
+      function Foo() {
+        this.a = 1
       }
-      let clone = func(input)
-      clone.foo('bar')
-      assert.ok(clone.a === 'bar')
-      assert.ok(input.a === undefined)
-      assert.ok(
-        typeof Object.getOwnPropertyDescriptor(clone, 'foo').set === 'function'
-      )
+      Foo.prototype.constructor = Object
+      assert.ok(func(new Foo()) instanceof Foo)
+    })
+
+    it('should clone getters', () => {
+      function Foo() {}
+
+      Object.defineProperty(Foo.prototype, 'bar', {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return 'foo-bar'
+        }
+      })
+
+      let input = new Foo()
+      var clone = func(input)
+
+      assert.strictEqual(clone.bar, 'foo-bar')
     })
 
     it('should clone enumerable properties (same as shallow clone)', () => {
@@ -140,11 +139,11 @@ describe.each(funcs)('objects part1', (func) => {
       assert.equal(cloneOwnDescriptor.writable, true)
     })
 
-    it('should clone non enumerable, non writable and configurable properties', () => {
+    it('should clone enumerable and configurable properties', () => {
       const input = Object.create(Object.prototype, {
         property1: {
           value: 42,
-          enumerable: false,
+          enumerable: true,
           configurable: true,
           writable: false
         }
@@ -155,32 +154,12 @@ describe.each(funcs)('objects part1', (func) => {
         'property1'
       )
       assert.ok(cloneOwnDescriptor != null)
-      assert.equal(cloneOwnDescriptor.enumerable, false)
+      assert.equal(cloneOwnDescriptor.enumerable, true)
       assert.equal(cloneOwnDescriptor.configurable, true)
       assert.equal(cloneOwnDescriptor.writable, false)
     })
 
-    it('should clone non enumerable, writable and non configurable properties', () => {
-      const input = Object.create(Object.prototype, {
-        property1: {
-          value: 42,
-          enumerable: false,
-          configurable: false,
-          writable: true
-        }
-      })
-      const clone = func(input)
-      const cloneOwnDescriptor = Object.getOwnPropertyDescriptor(
-        clone,
-        'property1'
-      )
-      assert.ok(cloneOwnDescriptor != null)
-      assert.equal(cloneOwnDescriptor.enumerable, false)
-      assert.equal(cloneOwnDescriptor.configurable, false)
-      assert.equal(cloneOwnDescriptor.writable, true)
-    })
-
-    it('should clone own symbol properties', () => {
+    it('should clone symbol properties', () => {
       const input = { [Symbol('a')]: 44 }
       const clone = func(input)
 
@@ -207,7 +186,7 @@ describe.each(funcs)('objects part1', (func) => {
       assert.ok(Object.isSealed(clone))
     })
 
-    it('should clone non extensible object', () => {
+    it('should clone extensible state', () => {
       let input = { foo: 'bar' }
       Object.preventExtensions(input)
       const clone = func(input)
