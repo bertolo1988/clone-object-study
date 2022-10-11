@@ -27,4 +27,4 @@ Object.getPrototypeOf(input).foo = 'bar'
 assert.ok(Object.getPrototypeOf(inputClone).foo === undefined)
 assert.equal(inputClone.a, input.a)
 
-console.log('voilá')
+console.log('voilá, a real clone')
