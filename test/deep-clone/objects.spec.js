@@ -50,19 +50,6 @@ describe.each(funcs)('objects part1', (func) => {
       assert.deepEqual(clone, input)
     })
 
-    describe('prototype', () => {
-      afterEach(() => {
-        delete Object.prototype.dangerousFunction
-      })
-
-      it('should clone the __proto__', () => {
-        const input = { a: 1 }
-        input.__proto__.dangerousFunction = 'bar'
-        let clone = func(input)
-        assert.ok(clone.__proto__.dangerousFunction === 'bar')
-      })
-    })
-
     it('should clone a getter', () => {
       const input = {
         a: 2,
@@ -180,6 +167,26 @@ describe.each(funcs)('objects part1', (func) => {
       assert.equal(cloneOwnDescriptor.writable, true)
     })
 
+    it('should clone non enumerable, non writable and non configurable properties', () => {
+      const input = Object.create(Object.prototype, {
+        property1: {
+          value: 42,
+          enumerable: false,
+          configurable: false,
+          writable: false
+        }
+      })
+      const clone = func(input)
+      const cloneOwnDescriptor = Object.getOwnPropertyDescriptor(
+        clone,
+        'property1'
+      )
+      assert.ok(cloneOwnDescriptor != null)
+      assert.equal(cloneOwnDescriptor.enumerable, false)
+      assert.equal(cloneOwnDescriptor.configurable, false)
+      assert.equal(cloneOwnDescriptor.writable, false)
+    })
+
     it('should clone own symbol properties', () => {
       const input = { [Symbol('a')]: 44 }
       const clone = func(input)
@@ -224,6 +231,28 @@ describe.each(funcs)('objects part1', (func) => {
       const input = { foo: 'bar' }
       const clone = func(input)
       assert.ok(input.constructor.name === clone.constructor.name)
+    })
+
+    describe('prototype', () => {
+      afterEach(() => {
+        delete Object.prototype.dangerousFunction
+      })
+
+      it.skip('clones the __proto__ by referencing', () => {
+        const input = { a: 1 }
+        input.__proto__.dangerousFunction = 'bar'
+        let clone = func(input)
+        assert.ok(clone.__proto__.dangerousFunction === 'bar')
+        assert.ok(clone.__proto__ === input.__proto__)
+      })
+
+      it('clones the __proto__ by really copying', () => {
+        const input = { foo: 'bar' }
+        let clone = func(input)
+        assert.ok(Object.getPrototypeOf(clone) !== Object.getPrototypeOf(input))
+        Object.getPrototypeOf(clone).dangerousFunction = 'bar'
+        assert.ok(Object.getPrototypeOf(input).dangerousFunction === undefined)
+      })
     })
   })
 })
