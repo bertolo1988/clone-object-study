@@ -238,7 +238,7 @@ describe.each(funcs)('objects part1', (func) => {
         delete Object.prototype.dangerousFunction
       })
 
-      it.skip('clones the __proto__ by referencing', () => {
+      it('clones the __proto__ by referencing', () => {
         const input = { a: 1 }
         input.__proto__.dangerousFunction = 'bar'
         let clone = func(input)
@@ -252,6 +252,18 @@ describe.each(funcs)('objects part1', (func) => {
         assert.ok(Object.getPrototypeOf(clone) !== Object.getPrototypeOf(input))
         Object.getPrototypeOf(clone).dangerousFunction = 'bar'
         assert.ok(Object.getPrototypeOf(input).dangerousFunction === undefined)
+      })
+
+      it('clones non enumerable properties in the prototype', () => {
+        const inputProto = Object.create(null, {
+          foo: {
+            value: 'bar',
+            enumerable: false
+          }
+        })
+        const input = Object.create(inputProto)
+        let clone = func(input)
+        assert.ok(clone.foo === input.foo)
       })
     })
   })
