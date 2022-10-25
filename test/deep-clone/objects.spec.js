@@ -5,7 +5,7 @@ const DeepClone = require('../../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
-describe.each(funcs)('objects part1', (func) => {
+describe.each(funcs)('objects', (func) => {
   describe(`🟣 ${func.name} `, () => {
     it('should clone a shallow object', () => {
       let input = { foo: 'bar' }
@@ -51,6 +51,7 @@ describe.each(funcs)('objects part1', (func) => {
     })
 
     it('should clone a getter', () => {
+      // TODO is this really correct?
       const input = {
         a: 2,
         get foo() {
