@@ -1,9 +1,9 @@
 const assert = require('node:assert')
 const _ = require('lodash')
-const { mapClassStaticMethods } = require('../test-utils')
+const { getCloneMethods } = require('../test-utils')
 const DeepClone = require('../../src/functions/deep-clone')
 
-const funcs = mapClassStaticMethods(DeepClone)
+let funcs = getCloneMethods(DeepClone)
 
 describe.each(funcs)('arrays', (func) => {
   describe(`🟣 ${func.name} `, () => {

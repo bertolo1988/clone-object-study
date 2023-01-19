@@ -1,50 +1,37 @@
 # clone-object-study
 
-## Correctness
+The source code of a study about cloning in Javascript.
 
-### What to expect from a good deep clone?
+## Lits available clone methods
 
-- clone every primitive value: boolean, null, undefined, number, BigInt, String and Symbol
+```
+npm run methods
+```
 
-- clone Infinity, NaN
+## Run all tests for all clone methods (not recommended)
 
-- clone every object at any depth that is listed by Object.keys() (all enumerable own properties)
+```
+npm run test
+```
 
-- clone every object at any depth that is listed by Object.getOwnPropertyNames() (returns all own properties)
+## Run all tests for a single clone method
 
-- correctly clone circular dependencies
+You can select a clone method by defining the METHOD environment variable.
 
-- call clone methods on class instances
+```
+METHOD=cloneLib NODE_ENV=test npx jest
+```
 
-# Notes
+Alternatively you can set it using dotenv.
 
-Underscore.js has no deep clone.
+```
+echo METHOD="cloneLib" > .env
+npm run test
+```
 
-Underscore Contrib deep clone doesnt work.
+## Run a test suite for a single clone method
 
-https://www.npmjs.com/package/clone-deep - does not work
-
-// TODO
-
-lodas uncloneable - https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/test/clone-methods.js#L73
-take more ideas from here
-
-TODO
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
-
-make sure every test suite has the following tests:
-
-https://stackoverflow.com/questions/1833588/javascript-clone-a-function
-
-"should clone own enumerable properties if they exist"
-
-"should clone own properties non enumerable properties if they exist"
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible
+```
+echo METHOD="cloneLib" > .env
+npm run test test/deep-clone/arrays.spec.js
+```
