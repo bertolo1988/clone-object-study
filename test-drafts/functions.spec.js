@@ -1,7 +1,7 @@
 const assert = require('node:assert')
 const _ = require('lodash')
-const { mapClassStaticMethods } = require('../test-utils')
-const DeepClone = require('../../src/functions/deep-clone')
+const { mapClassStaticMethods } = require('../test/test-utils')
+const DeepClone = require('../src/functions/deep-clone')
 
 const funcs = mapClassStaticMethods(DeepClone)
 
