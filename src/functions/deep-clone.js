@@ -168,7 +168,7 @@ class DeepClone {
   }
 
   // https://stackoverflow.com/a/6772648/1543163
-  /*   static functionCloner(func) {
+  /* static cloneFunctionsUsingBind(func) {
     return func.bind({})
   } */
 }
