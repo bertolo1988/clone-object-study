@@ -166,6 +166,11 @@ class DeepClone {
   static cloneDeepLodash(obj) {
     return _.cloneDeep(obj)
   }
+
+  // https://stackoverflow.com/a/6772648/1543163
+  /*   static functionCloner(func) {
+    return func.bind({})
+  } */
 }
 
 module.exports = DeepClone
