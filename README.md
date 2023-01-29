@@ -2,6 +2,12 @@
 
 The source code of a study about cloning in Javascript.
 
+## Requirements
+
+* Node.js version v18.10.0
+
+
+
 ## Lits available clone methods
 
 ```
