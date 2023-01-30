@@ -248,11 +248,16 @@ describe.each(funcs)('objects', (func) => {
       })
 
       it('clones the __proto__ by referencing', () => {
-        const input = { a: 1 }
-        input.__proto__.dangerousFunction = 'bar'
+        const inputProto = Object.create(null, {
+          foo: {
+            value: 'bar',
+            enumerable: true
+          }
+        })
+        const input = Object.create(inputProto)
         let clone = func(input)
-        assert.ok(clone.__proto__.dangerousFunction === 'bar')
         assert.ok(clone.__proto__ === input.__proto__)
+        assert.ok(clone.foo === input.foo)
       })
 
       it('clones the __proto__ by really copying', () => {
